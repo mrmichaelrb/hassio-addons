@@ -1,0 +1,78 @@
+{
+  "name": "LFTP Mirror",
+  "version": "1.0.1",
+  "slug": "lftp_mirror",
+  "description": "This add-on uses LFTP to mirror local directories with remote servers using FTP, FTPS, HTTP, HTTPS, HFTP, FISH, or SFTP",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "once",
+  "boot": "auto",
+  "stage": "experimental",
+  "map": ["backup:rw", "config:rw", "media:rw", "share:rw", "ssl:rw"],
+  "options": {
+    "directories": [
+      {
+        "direction": "upload",
+        "site": null,
+        "username": null,
+        "password": null,
+        "source": null,
+        "target": null,
+        "verify_ssl": true,
+        "net_max_retries": 2,
+        "net_reconnect_interval_base": 5,
+        "net_timeout": 5,
+        "scan_interval": 5,
+        "max_scan_intervals": 360,
+        "continue": true
+      }
+    ]
+  },
+  "schema": {
+    "directories": [
+      {
+        "direction": "list(upload|download)",
+        "site": "str",
+        "username": "str",
+        "password": "password",
+        "source": "str",
+        "target": "str",
+        "verify_ssl": "bool?",
+        "net_max_retries": "int?",
+        "net_reconnect_interval_base": "int?",
+        "net_timeout": "int?",
+        "scan_interval": "int",
+        "max_scan_intervals": "int?",
+        "local_expiration_days": "int?",
+        "continue": "bool?",
+        "delete": "bool?",
+        "delete_first": "bool?",
+        "depth_first": "bool?",
+        "scan_all_first": "bool?",
+        "allow_suid": "bool?",
+        "allow_chown": "bool?",
+        "ignore_time": "bool?",
+        "ignore_size": "bool?",
+        "only_missing": "bool?",
+        "only_existing": "bool?",
+        "only_newer": "bool?",
+        "upload_older": "bool?",
+        "transfer_all": "bool?",
+        "no_empty_dirs": "bool?",
+        "no_recursion": "bool?",
+        "no_symlinks": "bool?",
+        "no_perms": "bool?",
+        "no_umask": "bool?",
+        "dereference": "bool?",
+        "overwrite": "bool?",
+        "parallel": "int?",
+        "loop": "bool?",
+        "max_errors": "int?",
+        "skip_noaccess": "bool?",
+        "remove_source_files": "bool?",
+        "remove_source_dirs": "bool?",
+        "more_lftp_settings": "str?",
+        "more_mirror_options": "str?"
+      }
+    ]
+  }
+}
