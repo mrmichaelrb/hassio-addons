@@ -6,7 +6,7 @@ Mirrors local directories with remote servers using FTP, FTPS, HTTP, HTTPS, HFTP
 
 ## About
 
-This add-on uses [LFTP][lftp] to maintain a one-way mirror between local directories and a remote server.
+This add-on uses [LFTP][lftp] to maintain mirrors between local directories and remote servers.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
