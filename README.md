@@ -8,6 +8,10 @@ systems that have installed Home Assistant.
 
 ## Add-ons provided by this repository
 
+- **[GoDaddy DNS](/godaddy_dns/README.md)**
+
+    Automatically update your GoDaddy DNS IP address with integrated HTTPS support via Let's Encrypt.
+
 - **[LFTP Mirror](/lftp_mirror/README.md)**
 
     Mirrors local directories with remote servers using FTP, FTPS, HTTP, HTTPS, HFTP, FISH, or SFTP.
