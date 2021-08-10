@@ -22,11 +22,11 @@ Add-on configuration:
 ```yaml
 directories:
   - direction: upload
-    site: ftp://ftp.myserver.com/
+    site: ftp://ftp.my-server.com/
     username: myftpuser
     password: mtftppassword
     source: /backup
-    target: /myftp_path/backup
+    target: /my_ftp_path/backup
     verify_ssl: false
     net_max_retries: 2
     net_reconnect_interval_base: 5
@@ -38,11 +38,11 @@ directories:
     delete_first: true
     ignore_time: true
   - direction: upload
-    site: ftp://ftp.myserver.com/
+    site: ftp://ftp.my-server.com/
     username: myftpuser
     password: mtftppassword
     source: /media
-    target: /myftp_path/media
+    target: /my_ftp_path/media
     verify_ssl: false
     net_max_retries: 2
     net_reconnect_interval_base: 5
@@ -99,7 +99,8 @@ The following options are for the option group: `directories`.
 
 #### Option `directories.site` (required)
 
-URL or host name of the remote server used in the `open` command by LFTP. If a host name is specified, then the FTP protocol is used by default.
+URL or host name of the remote server used in the `open` command by LFTP.
+If a host name is specified, then the FTP protocol is used by default.
 
 #### Option `directories.username` (required)
 
@@ -111,19 +112,26 @@ Password to use when authenticating with the remote server.
 
 ### Option: `directories.source` (required)
 
-Directory path to use as the source for mirroring. If the direction is `upload`, then this is a local directory. If the direction is `download`, then this is a directory on the remote server.
+Directory path to use as the source for mirroring.
+If the direction is `upload`, then this is a local directory.
+If the direction is `download`, then this is a directory on the remote server.
 
 ### Option: `directories.target` (required)
 
-Directory path to use as the target for mirroring. If the direction is `upload`, then this is a directory on the remote server. If the direction is `download`, then this is a local directory.
+Directory path to use as the target for mirroring.
+If the direction is `upload`, then this is a directory on the remote server.
+If the direction is `download`, then this is a local directory.
 
 ### Option: `directories.verify_ssl` (optional)
 
-Sets the `ssl:verify-certificate` variable in LFTP. If set to true, then verify server's certificate to be signed by a known Certificate Authority and not be on the Certificate Revocation List.
+Sets the `ssl:verify-certificate` variable in LFTP.
+If set to true, then verify server's certificate to be signed by a known Certificate Authority and not be on the Certificate Revocation List.
 
 ### Option: `directories.net_max_retries` (optional)
 
-Sets the `net:max-retries` variable in LFTP, the maximum number of sequential tries of an operation without success. 0 means unlimited. 1 means no retries.
+Sets the `net:max-retries` variable in LFTP, the maximum number of sequential tries of an operation without success.
+0 means unlimited.
+1 means no retries.
 
 ### Option: `directories.net_reconnect_interval_base` (optional)
 
@@ -135,143 +143,179 @@ Sets the `net:timeout` variable in LFTP, the network protocol timeout in seconds
 
 ### Option: `directories.scan_interval` (required)
 
-The number of seconds between scanning for changes. If the direction is `download` a mirror operation is performed every scan interval to detect changes at the remote server. If the direction is `upload`, a mirror operation is performed if a local scan detects changes.
+The number of seconds between scanning for changes.
+If the direction is `download` a mirror operation is performed every scan interval to detect changes at the remote server.
+If the direction is `upload`, a mirror operation is performed if a local scan detects changes.
 
 ### Option: `directories.max_scan_intervals` (optional)
 
-If the direction is `upload`, then the number of scan intervals skipped between mirroring operations if no local changes are detected. 0 means a mirror operation is performed every scan interval even if no local changes are detected.
+If the direction is `upload`, then the number of scan intervals skipped between mirroring operations if no local changes are detected.
+0 means a mirror operation is performed every scan interval even if no local changes are detected.
 
 ### Option: `directories.local_expiration_days` (optional)
 
-The number of days before old files are removed from the local directory, based on file modification date. 0 means no files are removed. 1 means that files over 1 day old are removed.
+The number of days before old files are removed from the local directory, based on file modification date.
+0 means no files are removed.
+1 means that files over 1 day old are removed.
 > **&#x26a0;&#xfe0f; WARNING: Unintentional data loss is possible, or if the direction is `download`, then files may be repeatedly removed and transferred.**
 
 ### Option: `directories.continue` (optional)
 
-Continue a mirror job if possible. The `--continue` option in the LFTP mirror command.
+Continue a mirror job if possible.
+The `--continue` option in the LFTP mirror command.
 
 ### Option: `directories.delete` (optional)
 
-Delete files at the target which are not present at the source. The `--delete` option in the LFTP mirror command.
+Delete files at the target which are not present at the source.
+The `--delete` option in the LFTP mirror command.
 > **&#x26a0;&#xfe0f; WARNING: Unintentional data loss is possible.**
 
 ### Option: `directories.delete_first` (optional)
 
-Delete old files before transferring new ones. The `--delete-first` option in the LFTP mirror command.
+Delete old files before transferring new ones.
+The `--delete-first` option in the LFTP mirror command.
 
 ### Option: `directories.depth_first` (optional)
 
-Descend into subdirectories before transferring files. The `--depth-first` option in the LFTP mirror command.
+Descend into subdirectories before transferring files.
+The `--depth-first` option in the LFTP mirror command.
 
 ### Option: `directories.scan_all_first` (optional)
 
-Scan all directories recursively before transferring files. The `--scan-all-first` option in the LFTP mirror command.
+Scan all directories recursively before transferring files.
+The `--scan-all-first` option in the LFTP mirror command.
 
 ### Option: `directories.allow_suid` (optional)
 
-Set suid/sgid bits according to the source. The `--allow-suid` option in the LFTP mirror command.
+Set suid/sgid bits according to the source.
+The `--allow-suid` option in the LFTP mirror command.
 
 ### Option: `directories.allow_chown` (optional)
 
-Try to set owner and group on files. The `--allow-chown` option in the LFTP mirror command.
+Try to set owner and group on files.
+The `--allow-chown` option in the LFTP mirror command.
 
 ### Option: `directories.ignore_time` (optional)
 
-Ignore time when deciding whether to download. The `--ignore-time` option in the LFTP mirror command.
+Ignore time when deciding whether to download.
+The `--ignore-time` option in the LFTP mirror command.
 
 ### Option: `directories.ignore_size` (optional)
 
-Ignore size when deciding whether to download. The `--ignore-size` option in the LFTP mirror command.
+Ignore size when deciding whether to download.
+The `--ignore-size` option in the LFTP mirror command.
 
 ### Option: `directories.only_missing` (optional)
 
-Download only missing files. The `--only-missing` option in the LFTP mirror command.
+Download only missing files.
+The `--only-missing` option in the LFTP mirror command.
 
 ### Option: `directories.only_existing` (optional)
 
-Download only files already existing at target. The `--only-existing` option in the LFTP mirror command.
+Download only files already existing at target.
+The `--only-existing` option in the LFTP mirror command.
 
 ### Option: `directories.only_newer` (optional)
 
-Download only newer files. The `--only-newer` option in the LFTP mirror command.
+Download only newer files.
+The `--only-newer` option in the LFTP mirror command.
 
 ### Option: `directories.upload_older` (optional)
 
-Upload even files older than the target ones. The `--upload-older` option in the LFTP mirror command.
+Upload even files older than the target ones.
+The `--upload-older` option in the LFTP mirror command.
 
 ### Option: `directories.transfer_all` (optional)
 
-Transfer all files, even seemingly the same at the target site. The `--transfer-all` option in the LFTP mirror command.
+Transfer all files, even seemingly the same at the target site.
+The `--transfer-all` option in the LFTP mirror command.
 
 ### Option: `directories.no_empty_dirs` (optional)
 
-Do not create empty directories (implies `depth_first`). The `--no-empty-dirs` option in the LFTP mirror command.
+Do not create empty directories (implies `depth_first`).
+The `--no-empty-dirs` option in the LFTP mirror command.
 
 ### Option: `directories.no_recursion` (optional)
 
-Do not go to subdirectories. The `--no-recursion` option in the LFTP mirror command.
+Do not go into subdirectories.
+The `--no-recursion` option in the LFTP mirror command.
 
 ### Option: `directories.no_symlinks` (optional)
 
-Do not create symbolic links. The `--no-symlinks` option in the LFTP mirror command.
+Do not create symbolic links.
+The `--no-symlinks` option in the LFTP mirror command.
 
 ### Option: `directories.no_perms` (optional)
 
-Do not set file permissions. The `--no-perms` option in the LFTP mirror command.
+Do not set file permissions.
+The `--no-perms` option in the LFTP mirror command.
 
 ### Option: `directories.no_umask` (optional)
 
-Do not apply umask to file modes. The `--no-umask` option in the LFTP mirror command.
+Do not apply umask to file modes.
+The `--no-umask` option in the LFTP mirror command.
 
 ### Option: `directories.dereference` (optional)
 
-Download symbolic links as files. The `--dereference` option in the LFTP mirror command.
+Download symbolic links as files.
+The `--dereference` option in the LFTP mirror command.
 
 ### Option: `directories.overwrite` (optional)
 
-Overwrite plain files without removing them first. The `--overwrite` option in the LFTP mirror command.
+Overwrite plain files without removing them first.
+The `--overwrite` option in the LFTP mirror command.
 
 ### Option: `directories.parallel` (optional)
 
-Number of files to transfer in parallel. The `--parallel` option in the LFTP mirror command.
+Number of files to transfer in parallel.
+The `--parallel` option in the LFTP mirror command.
 
 ### Option: `directories.loop` (optional)
 
-Repeats mirror operation until no changes found. The `--loop` option in the LFTP mirror command.
+Repeats mirror operation until no changes found.
+The `--loop` option in the LFTP mirror command.
 > **&#x26a0;&#xfe0f; WARNING: The LFTP mirror operation has been known to hang when this option is used. Using this option is not recommended.**
 
 ### Option: `directories.max_errors` (optional)
 
-Number of errors to ignore before stopping. The `--max-errors` option in the LFTP mirror command.
+Number of errors to ignore before stopping.
+The `--max-errors` option in the LFTP mirror command.
 
 ### Option: `directories.skip_noaccess` (optional)
 
-Do not try to transfer files with no read access. The `--skip-noaccess` option in the LFTP mirror command.
+Do not try to transfer files with no read access.
+The `--skip-noaccess` option in the LFTP mirror command.
 
 ### Option: `directories.remove_source_files` (optional)
 
-Remove source files after transfer. The `--Remove-source-files` option in the LFTP mirror command.
+Remove source files after transfer.
+The `--Remove-source-files` option in the LFTP mirror command.
 > **&#x26a0;&#xfe0f; WARNING: Unintentional data loss is possible.**
 
 ### Option: `directories.remove_source_dirs` (optional)
 
-Remove source files and directories after transfer. Top level directory is not removed if its name ends with a slash. The `--Remove-source-dirs` option in the LFTP mirror command.
+Remove source files and directories after transfer.
+Top level directory is not removed if its name ends with a slash.
+The `--Remove-source-dirs` option in the LFTP mirror command.
 > **&#x26a0;&#xfe0f; WARNING: Unintentional data loss is possible.**
 
 ### Option: `directories.more_lftp_settings` (optional)
 
-Additional LFTP variable settings. Each setting must be terminated with a semicolon. Example: `set dns:cache-enable false; set ftp:passive-mode false;`
+Additional LFTP variable settings.
+Each setting must be terminated with a semicolon.
+Example: `set dns:cache-enable false; set ftp:passive-mode false;`
 
 ### Option: `directories.more_mirror_options` (optional)
 
-Additional LFTP mirror command options. Example: `--ascii --use-pget-n=5`
+Additional LFTP mirror command options.
+Example: `--ascii --use-pget-n=5`
 
 ## Known issues and limitations
 
 - The default timeout and retry settings used by LFTP may cause a mirror operation to hang for long periods of time, so it is recommended that more reasonable values always be specified in the `net_max_retries`, `net_reconnect_interval_base`, and `net_timeout` options.
 - The `loop` option may cause a mirror option to hang, so it is recommended that that this option be avoided.
 - Some LFTP settings and mirror options are not natively supported, however the `more_lftp_settings` and `more_mirror_options` options allow use of unsupported settings and options.
-- Mirroring will fail with `Fatal error: Certificate verification` if your remote server does not have a certificate signed (and not revoked) by a known Certificate Authority, or if the specified hostname (or IP address) in the `site` does not match the name in the certificate. This can be remedied by setting `verify_ssl` to false.
+- Mirroring will fail with `Fatal error: Certificate verification` if your remote server does not have a certificate signed (and not revoked) by a known Certificate Authority, or if the specified hostname (or IP address) in the `site` does not match the name in the certificate. This can be remedied by setting the `verify_ssl` option to false.
 
 ## Support
 
