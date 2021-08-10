@@ -2,60 +2,68 @@
 set -e
 
 get_config () {
-    local variable_name=$1
-    local config_name=$2
-    if bashio::config.has_value "directories[${directory}].$config_name"
+    local VARIABLE_NAME=${1}
+    local CONFIG_NAME=${2}
+    if bashio::config.has_value "directories[${DIRECTORY}].$CONFIG_NAME"
     then
-        local config_value=$(bashio::config "directories[${directory}].$config_name")
-        eval $variable_name=$config_value
+        local CONFIG_VALUE
+        CONFIG_VALUE=$(bashio::config "directories[${DIRECTORY}].$CONFIG_NAME")
+        eval "$VARIABLE_NAME"="$CONFIG_VALUE"
     fi
 }
 
 add_lftp_setting () {
-    local config_name=$1
-    local setting_name=$2
-    if bashio::config.has_value "directories[${directory}].$config_name"
+    local CONFIG_NAME=${1}
+    local SETTING_NAME=${2}
+    if bashio::config.has_value "directories[${DIRECTORY}].$CONFIG_NAME"
     then
-        local setting_value=$(bashio::config "directories[${directory}].$config_name")
-        LFTP_SETTINGS+="set $setting_name $setting_value;"
+        local SETTING_VALUE
+        SETTING_VALUE=$(bashio::config "directories[${DIRECTORY}].$CONFIG_NAME")
+        LFTP_SETTINGS+="set $SETTING_NAME $SETTING_VALUE;"
     fi
 }
 
 bool_mirror_option () {
-    local option_name=$1
-    if bashio::config.true "directories[${directory}].$option_name"
+    local OPTION_NAME=${1}
+    if bashio::config.true "directories[${DIRECTORY}].$OPTION_NAME"
     then
-        MIRROR_OPTIONS+=" --${option_name//_/-}"
+        MIRROR_OPTIONS+=" --${OPTION_NAME//_/-}"
     fi
 }
 
 int_mirror_option () {
-    local option_name=$1
-    if bashio::config.has_value "directories[${directory}].$option_name"
+    local OPTION_NAME=${1}
+    if bashio::config.has_value "directories[${DIRECTORY}].$OPTION_NAME"
     then
-        local option_value=$(bashio::config "directories[${directory}].$option_name")
-        MIRROR_OPTIONS+=" --${option_name//_/-}=$option_value"
+        local OPTION_VALUE
+        OPTION_VALUE=$(bashio::config "directories[${DIRECTORY}].$OPTION_NAME")
+        MIRROR_OPTIONS+=" --${OPTION_NAME//_/-}=$OPTION_VALUE"
     fi
 }
 
 str_mirror_option () {
-    local option_name=$1
-    if bashio::config.has_value "directories[${directory}].$option_name"
+    local OPTION_NAME=${1}
+    if bashio::config.has_value "directories[${DIRECTORY}].$OPTION_NAME"
     then
-        local option_value=$(bashio::config "directories[${directory}].$option_name")
-        MIRROR_OPTIONS+=" --${option_name//_/-}="\""$option_value"\"
+        local OPTION_VALUE
+        OPTION_VALUE=$(bashio::config "directories[${DIRECTORY}].$OPTION_NAME")
+        # shellcheck disable=SC2140
+        MIRROR_OPTIONS+=" --${OPTION_NAME//_/-}="\""$OPTION_VALUE"\"
     fi
 }
 
-for directory in $(bashio::config 'directories|keys')
+NUM_CHILDREN=0
+
+for DIRECTORY in $(bashio::config 'directories|keys')
 do
-    DIRECTION=$(bashio::config "directories[${directory}].direction")
-    SITE=$(bashio::config "directories[${directory}].site")
-    USERNAME=$(bashio::config "directories[${directory}].username")
-    export LFTP_PASSWORD=$(bashio::config "directories[${directory}].password")
-    SOURCE=$(bashio::config "directories[${directory}].source")
-    TARGET=$(bashio::config "directories[${directory}].target")
-    INTERVAL=$(bashio::config "directories[${directory}].scan_interval")
+    DIRECTION=$(bashio::config "directories[${DIRECTORY}].direction")
+    SITE=$(bashio::config "directories[${DIRECTORY}].site")
+    USERNAME=$(bashio::config "directories[${DIRECTORY}].username")
+    LFTP_PASSWORD=$(bashio::config "directories[${DIRECTORY}].password")
+    export LFTP_PASSWORD
+    SOURCE=$(bashio::config "directories[${DIRECTORY}].source")
+    TARGET=$(bashio::config "directories[${DIRECTORY}].target")
+    INTERVAL=$(bashio::config "directories[${DIRECTORY}].scan_interval")
 
     MAX_INTERVALS=0
     get_config MAX_INTERVALS max_scan_intervals 
@@ -100,22 +108,35 @@ do
     int_mirror_option max_errors
     bool_mirror_option skip_noaccess
 
-    if bashio::config.true "directories[${directory}].remove_source_files"; then
+    if bashio::config.true "directories[${DIRECTORY}].remove_source_files"
+    then
         MIRROR_OPTIONS+=" --Remove-source-files"
     fi
-    if bashio::config.true "directories[${directory}].remove_source_dirs"; then
+
+    if bashio::config.true "directories[${DIRECTORY}].remove_source_dirs"
+    then
         MIRROR_OPTIONS+=" --Remove-source-dirs"
     fi
 
-    if [ "$DIRECTION" = 'upload' ]; then
+    if [ "$DIRECTION" = 'upload' ]
+    then
+        # shellcheck disable=SC2140
         bashio::log.info "Mirroring from local "\""$SOURCE"\"" to "\""$TARGET"\"" at "\""$SITE"\""..."
     else
+        # shellcheck disable=SC2140
         bashio::log.info "Mirroring from "\""$SOURCE"\"" at "\""$SITE"\"" to local "\""$TARGET"\""..."
     fi
 
-    /mirror.sh "$DIRECTION" "$SITE" "$SOURCE" "$TARGET" "$USERNAME" $INTERVAL $MAX_INTERVALS $EXPIRATION &
+    /mirror.sh "$DIRECTION" "$SITE" "$SOURCE" "$TARGET" "$USERNAME" "$INTERVAL" "$MAX_INTERVALS" "$EXPIRATION" &
+    ((NUM_CHILDREN+=1))
 done
 
 LFTP_PASSWORD=
 
-sleep infinity
+# Stay alive while the mirroring child processes are all running
+# (account for the check itself creating 1 immediate child)
+((NUM_CHILDREN+=1))
+while [ "$(pgrep -P $$ | wc -l)" -eq "$NUM_CHILDREN" ]
+do
+    sleep 5
+done
