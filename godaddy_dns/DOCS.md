@@ -4,8 +4,8 @@
 
 Follow these steps to get the add-on installed on your system:
 
-1. Navigate in your Home Assistant frontend to **Supervisor** -> **Add-on Store**.
-2. Find the "Godaddy DNS" add-on and click it.
+1. Navigate in your Home Assistant front-end to **Supervisor** -> **Add-on Store**.
+2. Find the "GoDaddy DNS" add-on and click it.
 3. Click on the "INSTALL" button.
 
 ## How to use
@@ -88,7 +88,7 @@ By default, the add-on will use the response from https://api.ipify.org/ to auto
 This option allows you to override the auto-detection and specify an IPv4 address manually.
 
 If you specify a URL here, contents of the resource it points to will be fetched and used as the address.
-This enables getting the address with an alternatie service like https://ipv4.text.wtfismyip.com
+This enables getting the address with an alternative service like https://ipv4.text.wtfismyip.com
 
 ### Option: `ipv6` (optional)
 
@@ -96,7 +96,7 @@ By default, the add-on will use the response from https://api6.ipify.org/ to aut
 This option allows you to override the auto-detection and specify an IPv6 address manually.
 
 If you specify a URL here, contents of the resource it points to will be fetched and used as the address.
-This enables getting the address with an alternatie service like https://ipv6.text.wtfismyip.com
+This enables getting the address with an alternative service like https://ipv6.text.wtfismyip.com
 
 ### Option: `key`
 

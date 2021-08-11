@@ -6,7 +6,7 @@ Automatically update your GoDaddy DNS IP address with integrated HTTPS support v
 
 ## About
 
-This add-on will update DNS records that are hosted by [GoDaddy][godaddy] to an IP of your choice. It includes support for Let’s Encrypt and automatically creates and renews your certificates. You need to have a domain hosting account with GoDaddy and request API keys from GoDaddy before using this add-on.
+This add-on will update DNS records that are hosted by [GoDaddy][godaddy] to an IP of your choice. It includes support for Let’s Encrypt and automatically creates and renews your certificates. You need to have a domain hosting account with GoDaddy and request an API key from GoDaddy before using this add-on.
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
