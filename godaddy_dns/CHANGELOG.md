@@ -4,6 +4,7 @@
 
 - Force renewal period
 - Fixed typos in documentation
+- Improved logging
 
 ## 1.0.1
 
