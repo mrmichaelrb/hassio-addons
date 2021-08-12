@@ -50,11 +50,12 @@ WAIT_TIME=$(bashio::config 'scan_interval')
 
 # Function that performs a renewal
 function le_renew() {
-    bashio::log.info "Renew certificate for domain: ${FQDN}"
+    bashio::log.info "Renewing certificate for domain: ${FQDN}"
 
     EXIT_CODE=0
     dehydrated --cron --hook /hooks.sh --challenge dns-01 --domain "${FQDN}" \
         --out "${CERT_DIR}" --config "${WORK_DIR}/config" \
+        --force \
         || EXIT_CODE=${?}
 
     if [ $EXIT_CODE -eq 0 ]
@@ -62,6 +63,7 @@ function le_renew() {
         rm -f "${WORK_DIR}/*.update"
         touch "${LE_UPDATE_FILE}"
         LE_UPDATE=$(date +%s -r "${LE_UPDATE_FILE}")
+        bashio::log.info "Renewal successful for domain: ${FQDN}"
     else
         bashio::log.warning "Renewal failed for domain: ${FQDN}"
     fi
@@ -78,7 +80,7 @@ then
     if [ -e "${WORK_DIR}/lock" ]
     then
         rm -f "${WORK_DIR}/lock"
-        bashio::log.warning "Reset dehydrated lock file"
+        bashio::log.warning "Reseting dehydrated lock file"
     fi
 
     # Generate new certs
@@ -113,6 +115,7 @@ do
         if [ $EXIT_CODE -eq 0 ]
         then
             LAST_IPV4="${IPV4}"
+            bashio::log.debug "IPv4 record set to ${IPV4} for domain: ${FQDN}"
         else
             bashio::log.warning "IPv4 record registration failed for domain: ${FQDN}"
         fi
@@ -126,6 +129,7 @@ do
         if [ $EXIT_CODE -eq 0 ]
         then
             LAST_IPV6="${IPV6}"
+            bashio::log.debug "IPv6 record set to ${IPV6} for domain: ${FQDN}"
         else
             bashio::log.warning "IPv6 record registration failed for domain: ${FQDN}"
         fi
