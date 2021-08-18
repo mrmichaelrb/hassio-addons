@@ -1,6 +1,6 @@
 {
   "name": "GoDaddy DNS",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "slug": "godaddy_dns",
   "description": "GoDaddy DNS service with Let's Encrypt support",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -11,7 +11,7 @@
       "accept_terms": false,
       "certfile": "fullchain.pem",
       "keyfile": "privkey.pem",
-      "renewal_period": 86400,
+      "renewal_period": 5184000,
       "dns_delay": 60
     },
     "key": null,

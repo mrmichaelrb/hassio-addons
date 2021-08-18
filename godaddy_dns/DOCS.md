@@ -28,7 +28,7 @@ lets_encrypt:
   accept_terms: true
   certfile: fullchain.pem
   keyfile: privkey.pem
-  renewal_period: 86400
+  renewal_period: 5184000
   dns_delay: 60
 key: J4ikisg_Gi32gL4eo426plqWg1hj32X6df
 secret: 2Td3YTgFjYTgFjdWh6d2on
