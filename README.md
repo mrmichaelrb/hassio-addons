@@ -12,6 +12,10 @@ systems that have installed Home Assistant.
 
     Automatically update your GoDaddy DNS IP address with integrated HTTPS support via Let's Encrypt.
 
+- **[Google Cloud DNS](/google_cloud_dns/README.md)**
+
+    Automatically update your Google Cloud DNS IP address with integrated HTTPS support via Let's Encrypt.
+
 - **[LFTP Mirror](/lftp_mirror/README.md)**
 
     Mirrors local directories with remote servers using FTP, FTPS, HTTP, HTTPS, HFTP, FISH, or SFTP.
