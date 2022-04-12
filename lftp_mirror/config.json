@@ -1,6 +1,6 @@
 {
   "name": "LFTP Mirror",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "slug": "lftp_mirror",
   "description": "This add-on uses LFTP to mirror local directories with remote servers using FTP, FTPS, HTTP, HTTPS, HFTP, FISH, or SFTP",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -71,7 +71,8 @@
         "remove_source_files": "bool?",
         "remove_source_dirs": "bool?",
         "more_lftp_settings": "str?",
-        "more_mirror_options": "str?"
+        "more_mirror_options": "str?",
+        "verbose": "bool?"
       }
     ]
   }

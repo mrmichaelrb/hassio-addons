@@ -8,7 +8,7 @@ get_config () {
     then
         local CONFIG_VALUE
         CONFIG_VALUE=$(bashio::config "directories[${DIRECTORY}].$CONFIG_NAME")
-        eval "$VARIABLE_NAME"="$CONFIG_VALUE"
+        printf -v "$VARIABLE_NAME" '%s' "$CONFIG_VALUE"
     fi
 }
 
@@ -66,13 +66,19 @@ do
     INTERVAL=$(bashio::config "directories[${DIRECTORY}].scan_interval")
 
     MAX_INTERVALS=0
-    get_config MAX_INTERVALS max_scan_intervals 
+    get_config MAX_INTERVALS max_scan_intervals
 
     EXPIRATION=0
-    get_config EXPIRATION local_expiration_days 
+    get_config EXPIRATION local_expiration_days
 
     export LFTP_SETTINGS=
-    get_config LFTP_SETTINGS more_lftp_settings 
+    get_config LFTP_SETTINGS more_lftp_settings
+
+    # SFTP confirmation and host key verification should not prevent mirroring
+    LFTP_SETTINGS="set sftp:auto-confirm yes;set sftp:connect-program \"ssh -a -x -o UserKnownHostsFile=/dev/null\";$LFTP_SETTINGS"
+
+    # Fish confirmation should not prevent mirroring
+    LFTP_SETTINGS="set fish:auto-confirm yes;$LFTP_SETTINGS"
 
     add_lftp_setting verify_ssl ssl:verify-certificate
     add_lftp_setting net_max_retries net:max-retries
@@ -80,7 +86,7 @@ do
     add_lftp_setting net_timeout net:timeout
 
     export MIRROR_OPTIONS=
-    get_config MIRROR_OPTIONS more_mirror_options 
+    get_config MIRROR_OPTIONS more_mirror_options
 
     bool_mirror_option continue
     bool_mirror_option delete
@@ -107,6 +113,7 @@ do
     bool_mirror_option loop
     int_mirror_option max_errors
     bool_mirror_option skip_noaccess
+    bool_mirror_option verbose
 
     if bashio::config.true "directories[${DIRECTORY}].remove_source_files"
     then

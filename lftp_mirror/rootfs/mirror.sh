@@ -26,7 +26,7 @@ mirror () {
     fi
 
     # shellcheck disable=SC2140
-    lftp --norc -c "$LFTP_SETTINGS;open --user "\""$USERNAME"\"" --env-password "\""$SITE"\"";mirror$REVERSE $MIRROR_OPTIONS "\""$SOURCE"\"" "\""$TARGET"\"
+    lftp --norc -c "$LFTP_SETTINGS;open --user "\""$USERNAME"\"" --env-password "\""$SITE"\"";mirror$REVERSE $MIRROR_OPTIONS "\""$SOURCE"\"" "\""$TARGET"\" || true
 }
 
 if [ "$DIRECTION" = 'upload' ]

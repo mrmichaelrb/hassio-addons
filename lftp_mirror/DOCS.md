@@ -79,6 +79,7 @@ directories:
     remove_source_dirs: false
     more_lftp_settings: null
     more_mirror_options: null
+    verbose: false
 ```
 
 ### Option group `directories`
@@ -310,11 +311,17 @@ Example: `set dns:cache-enable false; set ftp:passive-mode false;`
 Additional LFTP mirror command options.
 Example: `--ascii --use-pget-n=5`
 
+### Option: `directories.verbose` (optional)
+
+Output a diagnostic message for every file operation.
+The `--verbose` option in the LFTP mirror command.
+
 ## Known issues and limitations
 
 - The default timeout and retry settings used by LFTP may cause a mirror operation to hang for long periods of time, so it is recommended that more reasonable values always be specified in the `net_max_retries`, `net_reconnect_interval_base`, and `net_timeout` options.
 - The `loop` option may cause a mirror option to hang, so it is recommended that that this option be avoided.
 - Some LFTP settings and mirror options are not natively supported, however the `more_lftp_settings` and `more_mirror_options` options allow use of unsupported settings and options.
+- SFTP host key verification is disabled by preventing SSH from storing host keys and always confirming host keys.
 - Mirroring will fail with `Fatal error: Certificate verification` if your remote server does not have a certificate signed (and not revoked) by a known Certificate Authority, or if the specified hostname (or IP address) in the `site` does not match the name in the certificate. This can be remedied by setting the `verify_ssl` option to false.
 
 ## Support
