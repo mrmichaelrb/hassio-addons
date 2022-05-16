@@ -1,12 +1,12 @@
 {
   "name": "Google Cloud DNS",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "slug": "google_cloud_dns",
   "description": "Google Cloud DNS service with Let's Encrypt support",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "services",
-  "stage": "experimental",
-  "map": ["config", "ssl:rw"],
+  "map": ["config:ro", "ssl:rw"],
+  "init": false,
   "options": {
     "lets_encrypt": {
       "accept_terms": false,
