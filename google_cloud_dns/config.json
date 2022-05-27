@@ -1,6 +1,6 @@
 {
   "name": "Google Cloud DNS",
-  "version": "1.0.6",
+  "version": "1.0.2",
   "slug": "google_cloud_dns",
   "description": "Google Cloud DNS service with Let's Encrypt support",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
