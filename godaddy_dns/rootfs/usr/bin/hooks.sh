@@ -7,13 +7,13 @@ set -e
 deploy_challenge() {
     local TOKEN_VALUE="${3}"
     local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
-    /godaddy_update_dns.sh set "${HOSTNAME}" TXT "${TOKEN_VALUE}"
+    godaddy_update_dns.sh set "${HOSTNAME}" TXT "${TOKEN_VALUE}"
     sleep "${LE_DNS_DELAY}"
 }
 
 clean_challenge() {
     local HOSTNAME="_acme-challenge.${GODADDY_HOSTNAME}"
-    /godaddy_update_dns.sh remove "${HOSTNAME}" TXT
+    godaddy_update_dns.sh remove "${HOSTNAME}" TXT
 }
 
 deploy_cert() {
