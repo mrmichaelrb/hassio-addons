@@ -1,24 +1,24 @@
-#!/usr/bin/env bashio
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
 set -e
 
 # Derived in part from:
 # https://github.com/home-assistant/addons/blob/master/duckdns/data/run.sh
 
-CONFIG_DIR=/config
 CERT_DIR=/data/letsencrypt
 WORK_DIR=/data/workdir
 
 # Google Cloud DNS
-GOOGLE_CLOUD_DNS_PROJECT=$(bashio::config 'project')
-GOOGLE_CLOUD_DNS_ZONE=$(bashio::config 'zone')
-GOOGLE_CLOUD_DNS_EMAIL=$(bashio::config 'email')
-GOOGLE_CLOUD_DNS_KEYFILE=$(bashio::config 'keyfile')
-GOOGLE_CLOUD_DNS_KEYFILE="${CONFIG_DIR}/${GOOGLE_CLOUD_DNS_KEYFILE}"
-GOOGLE_CLOUD_DNS_KEYPASS=$(bashio::config 'keyfile_password')
+GOOGLE_CLOUD_DNS_PROJECT="$(bashio::config 'project')"
+GOOGLE_CLOUD_DNS_ZONE="$(bashio::config 'zone')"
+GOOGLE_CLOUD_DNS_EMAIL="$(bashio::config 'email')"
+GOOGLE_CLOUD_DNS_KEYFILE="$(bashio::config 'keyfile')"
+GOOGLE_CLOUD_DNS_KEYFILE="/config/${GOOGLE_CLOUD_DNS_KEYFILE}"
+GOOGLE_CLOUD_DNS_KEYPASS="$(bashio::config 'keyfile_password')"
 GOOGLE_CLOUD_DNS_PEMFILE="${WORK_DIR}/gcp.pem"
-GOOGLE_CLOUD_DNS_DOMAIN=$(bashio::config 'domain')
-GOOGLE_CLOUD_DNS_HOSTNAME=$(bashio::config 'hostname')
-GOOGLE_CLOUD_DNS_TTL=$(bashio::config 'ttl')
+GOOGLE_CLOUD_DNS_DOMAIN="$(bashio::config 'domain')"
+GOOGLE_CLOUD_DNS_HOSTNAME="$(bashio::config 'hostname')"
+GOOGLE_CLOUD_DNS_TTL="$(bashio::config 'ttl')"
 GOOGLE_CLOUD_DNS_AUTHFILE="${WORK_DIR}/gcp.auth"
 export GOOGLE_CLOUD_DNS_PROJECT
 export GOOGLE_CLOUD_DNS_ZONE
@@ -68,7 +68,7 @@ function le_renew() {
     bashio::log.info "Renewing certificate for domain: ${FQDN}"
 
     EXIT_CODE=0
-    dehydrated --cron --hook /hooks.sh --challenge dns-01 --domain "${FQDN}" \
+    dehydrated --cron --hook hooks.sh --challenge dns-01 --domain "${FQDN}" \
         --out "${CERT_DIR}" --config "${WORK_DIR}/config" \
         --force \
         || EXIT_CODE=${?}
@@ -136,7 +136,7 @@ do
     if [ "${IPV4}" != '' ] && [ "${IPV4}" != "${LAST_IPV4}" ]
     then
         EXIT_CODE=0
-        /google_cloud_update_dns.sh set "${FQDN}" A "${IPV4}" || EXIT_CODE=${?}
+        google_cloud_update_dns.sh set "${FQDN}" A "${IPV4}" || EXIT_CODE=${?}
 
         if [ $EXIT_CODE -eq 0 ]
         then
@@ -150,8 +150,8 @@ do
     if [ "${IPV6}" != '' ] && [ "${IPV6}" != "${LAST_IPV6}" ]
     then
         EXIT_CODE=0
-        /google_cloud_update_dns.sh set "${FQDN}" AAAA "${IPV6}" || EXIT_CODE=${?}
-        
+        google_cloud_update_dns.sh set "${FQDN}" AAAA "${IPV6}" || EXIT_CODE=${?}
+
         if [ $EXIT_CODE -eq 0 ]
         then
             LAST_IPV6="${IPV6}"
@@ -170,6 +170,6 @@ do
             le_renew
         fi
     fi
-    
+
     sleep "${WAIT_TIME}"
 done

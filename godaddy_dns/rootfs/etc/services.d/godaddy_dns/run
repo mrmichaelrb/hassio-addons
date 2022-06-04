@@ -1,4 +1,5 @@
-#!/usr/bin/env bashio
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
 set -e
 
 # Derived in part from:
@@ -8,11 +9,11 @@ CERT_DIR=/data/letsencrypt
 WORK_DIR=/data/workdir
 
 # GoDaddy
-GODADDY_KEY=$(bashio::config 'key')
-GODADDY_SECRET=$(bashio::config 'secret')
-GODADDY_DOMAIN=$(bashio::config 'domain')
-GODADDY_HOSTNAME=$(bashio::config 'hostname')
-GODADDY_TTL=$(bashio::config 'ttl')
+GODADDY_KEY="$(bashio::config 'key')"
+GODADDY_SECRET="$(bashio::config 'secret')"
+GODADDY_DOMAIN="$(bashio::config 'domain')"
+GODADDY_HOSTNAME="$(bashio::config 'hostname')"
+GODADDY_TTL="$(bashio::config 'ttl')"
 export GODADDY_KEY
 export GODADDY_SECRET
 export GODADDY_DOMAIN
@@ -22,11 +23,11 @@ export GODADDY_TTL
 FQDN="${GODADDY_HOSTNAME}.${GODADDY_DOMAIN}"
 
 # Let's encrypt
-LE_ACCEPT_TERMS=$(bashio::config 'lets_encrypt.accept_terms')
-LE_CERTFILE=$(bashio::config 'lets_encrypt.certfile')
-LE_KEYFILE=$(bashio::config 'lets_encrypt.keyfile')
-LE_DNS_DELAY=$(bashio::config 'lets_encrypt.dns_delay')
-LE_RENEWAL_PERIOD=$(bashio::config 'lets_encrypt.renewal_period')
+LE_ACCEPT_TERMS="$(bashio::config 'lets_encrypt.accept_terms')"
+LE_CERTFILE="$(bashio::config 'lets_encrypt.certfile')"
+LE_KEYFILE="$(bashio::config 'lets_encrypt.keyfile')"
+LE_DNS_DELAY="$(bashio::config 'lets_encrypt.dns_delay')"
+LE_RENEWAL_PERIOD="$(bashio::config 'lets_encrypt.renewal_period')"
 LE_UPDATE_FILE="${WORK_DIR}/${FQDN}.update"
 export LE_CERTFILE
 export LE_KEYFILE
@@ -34,26 +35,26 @@ export LE_DNS_DELAY
 
 if bashio::config.has_value 'ipv4'
 then
-    CONFIG_IPV4=$(bashio::config 'ipv4')
+    CONFIG_IPV4="$(bashio::config 'ipv4')"
 else
     CONFIG_IPV4='https://api.ipify.org/'
 fi
 
 if bashio::config.has_value 'ipv6'
 then
-    CONFIG_IPV6=$(bashio::config 'ipv6')
+    CONFIG_IPV6="$(bashio::config 'ipv6')"
 else
     CONFIG_IPV6='https://api6.ipify.org/'
 fi
 
-WAIT_TIME=$(bashio::config 'scan_interval')
+WAIT_TIME="$(bashio::config 'scan_interval')"
 
 # Function that performs a renewal
 function le_renew() {
     bashio::log.info "Renewing certificate for domain: ${FQDN}"
 
     EXIT_CODE=0
-    dehydrated --cron --hook /hooks.sh --challenge dns-01 --domain "${FQDN}" \
+    dehydrated --cron --hook hooks.sh --challenge dns-01 --domain "${FQDN}" \
         --out "${CERT_DIR}" --config "${WORK_DIR}/config" \
         --force \
         || EXIT_CODE=${?}
@@ -110,7 +111,7 @@ do
     if [ "${IPV4}" != '' ] && [ "${IPV4}" != "${LAST_IPV4}" ]
     then
         EXIT_CODE=0
-        /godaddy_update_dns.sh set "${GODADDY_HOSTNAME}" A "${IPV4}" || EXIT_CODE=${?}
+        godaddy_update_dns.sh set "${GODADDY_HOSTNAME}" A "${IPV4}" || EXIT_CODE=${?}
 
         if [ $EXIT_CODE -eq 0 ]
         then
@@ -124,8 +125,8 @@ do
     if [ "${IPV6}" != '' ] && [ "${IPV6}" != "${LAST_IPV6}" ]
     then
         EXIT_CODE=0
-        /godaddy_update_dns.sh set "${GODADDY_HOSTNAME}" AAAA "${IPV6}" || EXIT_CODE=${?}
-        
+        godaddy_update_dns.sh set "${GODADDY_HOSTNAME}" AAAA "${IPV6}" || EXIT_CODE=${?}
+
         if [ $EXIT_CODE -eq 0 ]
         then
             LAST_IPV6="${IPV6}"
@@ -144,6 +145,6 @@ do
             le_renew
         fi
     fi
-    
+
     sleep "${WAIT_TIME}"
 done

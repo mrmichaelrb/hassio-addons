@@ -1,11 +1,12 @@
 {
   "name": "GoDaddy DNS",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "slug": "godaddy_dns",
   "description": "GoDaddy DNS service with Let's Encrypt support",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "services",
   "map": ["ssl:rw"],
+  "init": false,
   "options": {
     "lets_encrypt": {
       "accept_terms": false,
