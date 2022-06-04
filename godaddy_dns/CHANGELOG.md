@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.4
+
+- Fixed S6 Overlay problem with HA's Docker base image
+
 ## 1.0.3
 
 - Fixed renewal period
