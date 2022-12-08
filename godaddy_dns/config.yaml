@@ -1,0 +1,43 @@
+name: GoDaddy DNS
+description: GoDaddy DNS updating service with Let's Encrypt support
+version: "1.0.5"
+slug: godaddy_dns
+url: https://github.com/mrmichaelrb/hassio-addons
+startup: services
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+init: false
+map:
+  - ssl:rw
+options:
+  lets_encrypt:
+    accept_terms: false
+    certfile: fullchain.pem
+    keyfile: privkey.pem
+    renewal_period: 5184000
+    dns_delay: 60
+  key: GoDaddy API Key
+  secret: GoDaddy API Secret
+  domain: my-godaddy-domain.com
+  hostname: my-hostname
+  ttl: 600
+  scan_interval: 300
+schema:
+  lets_encrypt:
+    accept_terms: bool
+    certfile: str
+    keyfile: str
+    renewal_period: int
+    dns_delay: int
+  ipv4: str?
+  ipv6: str?
+  key: str
+  secret: str
+  domain: str
+  hostname: str
+  ttl: int
+  scan_interval: int
