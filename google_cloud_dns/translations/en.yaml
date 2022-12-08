@@ -1,0 +1,48 @@
+configuration:
+  lets_encrypt:
+    name: Let's Encrypt
+    description: Let's Encrypt configuration
+  accept_terms:
+    name: Accept Terms
+    description: Accept the Let's Encrypt Terms and Conditions
+  certfile:
+    name: Certificate File
+    description: Name of the certificate file
+  keyfile:
+    name: Key File
+    description: Name of the key file
+  renewal_period:
+    name: Renewal Period
+    description: Renew after x seconds (default for Let's Encrypt is 60 days)
+  dns_delay:
+    name: Seconds to wait between deploying the DNS challenge record and requesting a certificate
+  project:
+    name: Project ID
+    description: Google Cloud Project ID
+  zone:
+    name: Cloud DNS Zone
+    description: Google Cloud DNS Zone
+  email:
+    name: Email
+    description: Service account email address
+  keyfile_password:
+    name: Key File Password
+    description: Passphrase for P12 private key file
+  domain:
+    name: Domain
+    description: Domain name registered by Google Cloud DNS
+  hostname:
+    name: Hostname
+    description: Hostname used for accessing Home Assistant instance
+  ttl:
+    name: TTL
+    description: DNS TTL
+  scan_interval:
+    name: Scan Interval
+    description: How often to check if the DNS record needs updating or the Let's Encrypt certificate needs renewing
+  ipv4:
+    name: IPv4 Address
+    description: The DNS will be updated to this IPv4 Address
+  ipv6:
+    name: IPv6 Address
+    description: The DNS will be updated to this IPv6 Address
