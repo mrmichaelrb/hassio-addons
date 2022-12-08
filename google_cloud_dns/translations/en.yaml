@@ -25,9 +25,6 @@ configuration:
   email:
     name: Email
     description: Service account email address
-  #keyfile:
-  #  name: Key File
-  #  description: Hostname used for accessing Home Assistant instance
   keyfile_password:
     name: Key File Password
     description: Passphrase for P12 private key file
