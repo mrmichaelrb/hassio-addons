@@ -8,6 +8,7 @@
   "boot": "auto",
   "stage": "experimental",
   "map": ["backup:rw", "config:rw", "media:rw", "share:rw", "ssl:rw"],
+  "init": false,
   "options": {
     "directories": [
       {
