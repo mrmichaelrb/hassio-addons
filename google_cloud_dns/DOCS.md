@@ -21,7 +21,7 @@ Follow these steps to get the add-on installed on your system:
     - Update the `email` option with the email address of the service account.
     - Update the `keyfile` option with the name of the P12 private key file.
     - Update the `keyfile_password` with the passphrase used by Google to lock the P12 private key file. By default, Google uses `notasecret`.
-    - Update the `domain` option with the full domain name that is hosted by GoDaddy. E.g., `my-domain.com`.
+    - Update the `domain` option with the full domain name that is using Google Cloud DNS. E.g., `my-domain.com`.
     - Update the `hostname` option with a name you want to use under the domain. E.g., `my-hostname`.
 3. If you want the add-on to automatically obtain a SSL certificate from Let's Encrypt and enable HTTPS, you must agree to the [Let's Encrypt Subscriber Agreement][le-legal] and perform the following:
     - Change `lets_encrypt.accept_terms` to `true`.

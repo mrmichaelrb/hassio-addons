@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.5
+
+- Converted JSON to Home Assistant standard YAML
+- Updated base images to latest version (3.16)
+
 ## 1.0.4
 
 - Fixed S6 Overlay problem with HA's Docker base image

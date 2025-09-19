@@ -1,0 +1,42 @@
+configuration:
+  lets_encrypt:
+    name: Let's Encrypt
+    description: Let's Encrypt configuration
+  accept_terms:
+    name: Accept Terms
+    description: Accept the Let's Encrypt Terms and Conditions
+  certfile:
+    name: Certificate File
+    description: Name of the certificate file
+  keyfile:
+    name: Key File
+    description: Name of the key file
+  renewal_period:
+    name: Renewal Period
+    description: Renew after x seconds (default for Let's Encrypt is 60 days)
+  dns_delay:
+    name: Seconds to wait between deploying the DNS challenge record and requesting a certificate
+  key:
+    name: GoDaddy API Key
+    description: Generated key from GoDaddy's API Key Management
+  secret:
+    name: GoDaddy API Secret
+    description: Corresponding GoDaddy API key secret
+  domain:
+    name: Domain
+    description: Domain name registered on GoDaddy account
+  hostname:
+    name: Hostname
+    description: Hostname used for accessing Home Assistant instance
+  ttl:
+    name: TTL
+    description: DNS TTL
+  scan_interval:
+    name: Scan Interval
+    description: How often to check if the DNS record needs updating or the Let's Encrypt certificate needs renewing
+  ipv4:
+    name: IPv4 Address
+    description: The DNS will be updated to this IPv4 Address
+  ipv6:
+    name: IPv6 Address
+    description: The DNS will be updated to this IPv6 Address
