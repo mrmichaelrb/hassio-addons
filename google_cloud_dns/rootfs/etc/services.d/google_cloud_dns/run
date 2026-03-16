@@ -111,6 +111,9 @@ then
     else
         LE_UPDATE=0
     fi
+else 
+  # Create WORK_DIR if LE_ACCEPT_TERMS is not 'true'
+  mkdir -p "${WORK_DIR}" 
 fi
 
 LAST_IPV4=
